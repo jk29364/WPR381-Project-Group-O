@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const BookingStatus = ['pending', 'confirmed', 'cancelled', 'completed'];
 
-const BookingSchema = New Schema = new Schema({
+const BookingSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -29,7 +29,5 @@ const BookingSchema = New Schema = new Schema({
 }, {
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 });
-
-]
 
 module.exports = mongoose.model('Booking', BookingSchema);
