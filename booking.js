@@ -30,8 +30,6 @@ const BookingSchema = New Schema = new Schema({
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 });
 
-// NOTE: capacity enforcement and preventing overbooking should be implemented
-// in the booking service/controller with document-level checks or transactions.
-// Keep model lightweight; do not perform cross-collection updates here.
+]
 
 module.exports = mongoose.model('Booking', BookingSchema);
