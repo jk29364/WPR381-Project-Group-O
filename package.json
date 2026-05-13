@@ -1,0 +1,26 @@
+{
+  "name": "wpr381-project-group-o",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script-main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jk29364/WPR381-Project-Group-O.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jk29364/WPR381-Project-Group-O/issues"
+  },
+  "homepage": "https://github.com/jk29364/WPR381-Project-Group-O#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  }
+}
