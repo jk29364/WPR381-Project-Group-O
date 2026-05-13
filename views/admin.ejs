@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - AdvEvents</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+  <%- include('partials/navbar') %>
+
+  <div class="container my-5">
+
+    <h2 class="fw-bold mb-1" style="color: #f5c518;">Admin Panel</h2>
+    <p class="text-muted mb-4">Manage events, bookings and enquiries</p>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="success-message"><%= success %></div>
+    <% } %>
+
+    <!-- STATS CARDS -->
+    <div class="row g-3 mb-5">
+      <div class="col-md-4">
+        <div class="admin-stat-box">
+          <p class="admin-stat-label">Total Bookings</p>
+          <h3 class="admin-stat-number"><%= typeof totalBookings !== 'undefined' ? totalBookings : 0 %></h3>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="admin-stat-box">
+          <p class="admin-stat-label">Total Events</p>
+          <h3 class="admin-stat-number"><%= typeof totalEvents !== 'undefined' ? totalEvents : 0 %></h3>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="admin-stat-box">
+          <p class="admin-stat-label">Total Users</p>
+          <h3 class="admin-stat-number"><%= typeof totalUsers !== 'undefined' ? totalUsers : 0 %></h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATE EVENT FORM -->
+    <h5 class="mb-3" style="color: #f5c518;">Create New Event</h5>
+    <div class="card event-card p-3 mb-5">
+      <form action="/admin/events" method="POST">
+        <div class="row g-2">
+          <div class="col-md-6">
+            <input type="text" name="title" class="form-control dark-input-field" placeholder="Event Title" required/>
+          </div>
+          <div class="col-md-3">
+            <select name="category" class="form-select dark-input-field" required>
+              <option value="">Category</option>
+              <option value="conference">Conference</option>
+              <option value="festival">Festival</option>
+              <option value="workshop">Workshop</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <input type="date" name="date" class="form-control dark-input-field" required/>
+          </div>
+          <div class="col-md-6">
+            <input type="text" name="venue" class="form-control dark-input-field" placeholder="Venue" required/>
+          </div>
+          <div class="col-md-3">
+            <input type="number" name="capacity" class="form-control dark-input-field" placeholder="Capacity" required/>
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn red-button w-100">Add Event</button>
+          </div>
+          <div class="col-12">
+            <textarea name="description" class="form-control dark-input-field" rows="2" placeholder="Description (optional)"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ALL EVENTS TABLE -->
+    <h5 class="mb-3" style="color: #f5c518;">All Events</h5>
+    <% if (typeof events !== 'undefined' && events.length > 0) { %>
+      <div class="table-responsive mb-5">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Venue</th>
+              <th>Capacity</th>
+              <th>Remaining</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% events.forEach(function(event) { %>
+              <tr>
+                <td><%= event.title %></td>
+                <td><%= event.category %></td>
+                <td><%= new Date(event.date).toDateString() %></td>
+                <td><%= event.venue %></td>
+                <td><%= event.capacity %></td>
+                <td><%= event.ticketsRemaining %></td>
+                <td>
+                  <a href="/admin/events/<%= event._id %>/edit" class="btn btn-sm btn-outline-warning me-1">Edit</a>
+                  <form action="/admin/events/<%= event._id %>/delete" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this event?')">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <p class="text-muted mb-5">No events created yet.</p>
+    <% } %>
+
+    <!-- ENQUIRIES TABLE -->
+    <h5 class="mb-3" style="color: #f5c518;">User Enquiries</h5>
+    <% if (typeof enquiries !== 'undefined' && enquiries.length > 0) { %>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% enquiries.forEach(function(enquiry) { %>
+              <tr>
+                <td><%= enquiry.name %></td>
+                <td><%= enquiry.email %></td>
+                <td><%= enquiry.message %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <p class="text-muted">No enquiries yet.</p>
+    <% } %>
+
+  </div>
+
+  <%- include('partials/footer') %>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

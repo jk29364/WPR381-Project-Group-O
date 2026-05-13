@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AdvEvents - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+  <%- include('partials/navbar') %>
+
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <div class="container">
+      <h1 class="display-4 fw-bold">
+        Find Your Next <span class="hero-gold-word">Event</span>
+      </h1>
+      <p class="lead mt-3">
+        Conferences, festivals, workshops and more — book your tickets today.
+      </p>
+      <a href="/events" class="btn red-button mt-3 px-4 py-2">Browse Events</a>
+    </div>
+  </section>
+
+  <!-- SEARCH BAR -->
+  <section class="search-filter-bar">
+    <div class="container">
+      <form action="/events" method="GET" class="row g-2">
+        <div class="col-md-5">
+          <input
+            type="text"
+            name="search"
+            class="form-control dark-input-field"
+            placeholder="Search events..."
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+          />
+        </div>
+        <div class="col-md-3">
+          <select name="category" class="form-select dark-input-field">
+            <option value="">All Categories</option>
+            <option value="conference">Conference</option>
+            <option value="festival">Festival</option>
+            <option value="workshop">Workshop</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="date" name="date" class="form-control dark-input-field"/>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn red-button w-100">Search</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- EVENTS GRID -->
+  <section class="container my-4">
+    <h4 class="mb-3 tickets-remaining-text">Upcoming Events</h4>
+    <div class="row g-4">
+      <% if (typeof events !== 'undefined' && events.length > 0) { %>
+        <% events.forEach(function(event) { %>
+          <div class="col-md-4">
+            <div class="card event-card h-100">
+              <div class="card-body">
+                <span class="event-category-badge"><%= event.category %></span>
+                <h5 class="card-title"><%= event.title %></h5>
+                <p class="text-muted small"><%= event.venue %> — <%= new Date(event.date).toDateString() %></p>
+                <p class="small"><%= event.description ? event.description.substring(0, 80) + '...' : '' %></p>
+                <p class="tickets-remaining-text">Tickets left: <%= event.ticketsRemaining %></p>
+                <a href="/events/<%= event._id %>" class="btn btn-sm red-outline-button">View Details</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12">
+          <p class="text-muted">No events found. Check back soon!</p>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
