@@ -1,9 +1,4 @@
-/* ============================================================
-   FILE: public/css/style.css
-   WHAT IT DOES: All custom styles for the red, black and gold 
-   theme. Every class name is written in plain English so you 
-   can read it and know exactly what it styles.
-============================================================ */
+/*All custom styles for the red, black and gold theme.*/
 
 
 /* ===================== WHOLE PAGE ===================== */
@@ -48,7 +43,7 @@ body {
   color: white;
 }
 
-/* The gold word inside the hero heading e.g. the word "Event" */
+/* The gold word inside the hero heading "Event" */
 .hero-gold-word {
   color: #f5c518;
 }
