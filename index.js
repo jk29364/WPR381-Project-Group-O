@@ -47,6 +47,63 @@ app.get("/register", (req, res) => {
     });
 });
 
+// CONFIRM PASSWORD PAGE
+app.post('/confirmPass', (req, res) => {
+
+    const { name, email, password } = req.body;
+
+    res.render('confirmPass', {
+        name,
+        email,
+        password
+    });
+
+});
+
+//REGISTER POST
+app.post('/register', async (req, res) => {
+
+    const {
+        name,
+        email,
+        password,
+        passconf
+    } = req.body;
+
+    // Check passwords match
+    if(password !== passconf){
+
+        return res.render('confirmPass', {
+            name,
+            email,
+            password,
+            error: "Passwords do not match"
+        });
+
+    }
+
+    try {
+
+        await register(name, email, password);
+
+        res.redirect('/login');
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.render('confirmPass', {
+            name,
+            email,
+            password,
+            error: "Failed to create account"
+        });
+
+    }
+
+});
+
 // DASHBOARD PAGE
 app.get("/dashboard", (req, res) => {
     res.render("dashboard", {
