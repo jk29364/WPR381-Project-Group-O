@@ -12,12 +12,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // Allow Express to read form data submitted by users
 app.use(express.urlencoded({ extended: true }));
 
+const sessionuser = null
 
 // HOME PAGE
 app.get("/", (req, res) => {
     res.render("index", {
         events: [],
-        user: null,
+        user: sessionuser,
         search: ""
     });
 });
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
 app.get("/events", (req, res) => {
     res.render("events", {
         events: [],
-        user: null,
+        user: sessionuser,
         search: req.query.search || ""
     });
 });
@@ -62,6 +63,8 @@ app.post('/confirmPass', (req, res) => {
 
 //REGISTER POST
 app.post('/register', async (req, res) => {
+    
+    const accman = require('./public/js/accman.js');
 
     const {
         name,
@@ -84,7 +87,7 @@ app.post('/register', async (req, res) => {
 
     try {
 
-        await register(name, email, password);
+        await accman.register(name, email, password);
 
         res.redirect('/login');
 
@@ -104,10 +107,45 @@ app.post('/register', async (req, res) => {
 
 });
 
+//LOGIN POST
+app.post('/login', async (req, res) => {
+    
+    const accman = require('./public/js/accman.js');
+
+    const {
+        email,
+        password
+    } = req.body;
+
+    try {
+
+        sessionuser = await accman.login(email, password);
+
+        res.redirect('/login');
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.render('login', {
+            email,
+            password,
+            error: "Failed to log in. " + error.message
+        });
+
+    }
+
+    res.render('dashboard', {
+        user: sessionuser
+    })
+
+});
+
 // DASHBOARD PAGE
 app.get("/dashboard", (req, res) => {
     res.render("dashboard", {
-        user: { name: "Test User", role: "user" },
+        user: sessionuser,
         bookings: [],
         event: null,
         success: null,
@@ -118,7 +156,7 @@ app.get("/dashboard", (req, res) => {
 // CONTACT PAGE
 app.get("/contact", (req, res) => {
     res.render("contact", {
-        user: null,
+        user: sessionuser,
         success: null,
         error: null
     });
@@ -127,7 +165,7 @@ app.get("/contact", (req, res) => {
 // ADMIN PAGE
 app.get("/admin", (req, res) => {
     res.render("admin", {
-        user: { name: "Admin", role: "admin" },
+        user: sessionuser,
         events: [],
         enquiries: [],
         totalBookings: 0,
