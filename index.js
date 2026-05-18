@@ -1,7 +1,11 @@
 const express = require("express");
 const path = require("path");
+const connectDB = require('./db');
 
 const app = express();
+
+// Connect to MongoDB
+connectDB();
 
 // Tell Express to use EJS for rendering pages
 app.set("view engine", "ejs");
