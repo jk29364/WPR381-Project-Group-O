@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const EventSchema = New Schema = new Schema({
+const EventSchema = new Schema({
   title: {
     type: String,
     required: true,
